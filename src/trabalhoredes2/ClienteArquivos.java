@@ -1,26 +1,23 @@
 package trabalhoredes2;
-// Importa classes para entrada/saída de dados
+//IOException
 import java.io.*;
-// Importa classes para comunicação via socket TCP
+// API de rede(MulticastSocket, InetAddress, DatagramPacket)
 import java.net.*;
-// Importa classes para manipulação de arquivos
+// Manipulação de arquivos
 import java.nio.file.*;
-// Importa classe para gerar hash (SHA-256)
+// Gerar hash (SHA-256)
 import java.security.MessageDigest;
-// Importa utilitários como listas, etc.
-import java.util.*;
-// Importa a biblioteca JSON usada para construir e interpretar objetos JSON
+// Objetos JSON
 import org.json.*;
-// Importa utilitários para codificar e decodificar Base64
+// Codificação/decodificação Base64
 import java.util.Base64;
-// Importa JOptionPane para interações gráficas (no cliente)
+
 import javax.swing.JOptionPane;
 
 public class ClienteArquivos {
 
     // Endereço IP do servidor (localhost para testes locais)
     private static final String SERVER_IP = "127.0.0.1";
-    // Porta utilizada para a conexão TCP
     private static final int PORTA = 5001;
     
     private static final String caminhoSalvar
@@ -28,10 +25,9 @@ public class ClienteArquivos {
 
     public static void main(String[] args) {
         try {
-            // Conecta ao servidor via socket TCP
             Socket socket = new Socket(SERVER_IP, PORTA);
 
-            // Cria leitores e escritores para entrada e saída de dados no socket
+            // Leitores e escritores para entrada e saída de dados no socket
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
@@ -51,11 +47,10 @@ public class ClienteArquivos {
                 );
 
                 if (comando == null || comando.equals("SAIR")) {
-                    break; // Encerra o loop
+                    break;
                 }
                 switch (comando) {
                     case "LIST":
-                        // Solicita lista de arquivos ao servidor
                         JSONObject reqList = new JSONObject();
                         reqList.put("cmd", "list_req");
                         out.write(reqList.toString() + "\n");
@@ -131,10 +126,8 @@ public class ClienteArquivos {
                             JOptionPane.showMessageDialog(null, "Arquivo não encontrado no servidor.");
                         } else {
                             byte[] dadosArq = Base64.getDecoder().decode(conteudo);
-
-                            // Define o caminho fixo para salvar o arquivo na pasta desejada
                             
-                            Files.createDirectories(Paths.get(caminhoSalvar)); // Cria a pasta se não existir
+                            Files.createDirectories(Paths.get(caminhoSalvar));
                             Path caminhoFinal = Paths.get(caminhoSalvar, nomeRemoto);
                             Files.write(caminhoFinal, dadosArq);
 
@@ -144,8 +137,6 @@ public class ClienteArquivos {
                         break;
                 }
             }
-
-            // Fecha o socket ao final
             socket.close();
             JOptionPane.showMessageDialog(null, "Conexão encerrada.");
 

@@ -1,16 +1,16 @@
 package trabalhoredes3;
-
-import java.net.*; // Para UDP: DatagramSocket, DatagramPacket
-import java.io.*; // Para FileReader e exceções
-import java.nio.charset.StandardCharsets; // Para usar UTF-8
-import java.util.*; // Para Map
-import org.json.JSONObject; // Manipulação de JSON
+// Para UDP: DatagramSocket, DatagramPacket
+import java.net.*; 
+//IOException
+import java.io.*; 
+// Para usar UTF-8
+import java.nio.charset.StandardCharsets;
+// Para Map
+import java.util.*; 
+// Manipulação de JSON
+import org.json.JSONObject; 
 import org.json.JSONArray;
 
-/**
- * Servidor UDP que escuta comandos JSON de um cliente e responde com base no
- * estado de sensores e atuadores carregados de um arquivo.
- */
 public class ServerUDP {
     // Mapa que armazena o estado de cada dispositivo (sensor/atuador)
     private static Map<String, Object> dispositivos = new HashMap<>();
@@ -112,9 +112,9 @@ public class ServerUDP {
         }
     }
 
-    /**
-     * Carrega os dispositivos e seus valores iniciais de um arquivo JSON.
-     */
+
+     //Carrega os dispositivos e seus valores iniciais de um arquivo JSON.
+
     private static void carregarConfiguracao(String caminho) throws Exception {
         FileReader reader = new FileReader(caminho, StandardCharsets.UTF_8);
         StringBuilder conteudo = new StringBuilder();

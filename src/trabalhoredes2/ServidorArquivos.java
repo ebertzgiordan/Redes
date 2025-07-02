@@ -1,35 +1,30 @@
 package trabalhoredes2;
-
-// ServidorArquivos.java
-
-// Importações para entrada/saída de dados
+//IOException
 import java.io.*;
-// Importações para comunicação via socket TCP
+// API de rede(MulticastSocket, InetAddress, DatagramPacket)
 import java.net.*;
-// Importações para manipulação de arquivos
+// Manipulação de arquivos
 import java.nio.file.*;
-// Importações para gerar hash criptográfico
+// Gerar hash (SHA-256)
 import java.security.MessageDigest;
-// Importações para listas, arrays, etc.
+// Array
 import java.util.*;
-// Biblioteca para manipulação de objetos JSON
+// Objetos JSON
 import org.json.*;
-// Importação para codificação/decodificação Base64
+// Codificação/decodificação Base64
 import java.util.Base64;
 
 public class ServidorArquivos {
     // Porta onde o servidor vai escutar conexões
     private static final int PORTA = 5001;
 
-    // Caminho absoluto onde os arquivos serão salvos e lidos
+    // Onde os arquivos serão salvos e lidos
     private static final String DIRETORIO_ARQUIVOS = ("src/servidor_arquivos");
 
     public static void main(String[] args) {
         try {
-            // Garante que o diretório para salvar arquivos exista
+            
             Files.createDirectories(Paths.get(DIRETORIO_ARQUIVOS));
-
-            // Cria o socket do servidor escutando na porta definida
             ServerSocket serverSocket = new ServerSocket(PORTA);
             System.out.println("Servidor iniciado na porta " + PORTA);
 
@@ -38,25 +33,20 @@ public class ServidorArquivos {
                 Socket cliente = serverSocket.accept(); // Espera conexão de cliente
                 System.out.println("Cliente conectado: " + cliente.getInetAddress());
 
-                // Cria uma nova thread para lidar com cada cliente de forma independente
+                // Cada cliente tera uma thread
                 new Thread(() -> {
                     try {
-                        // Leitor para receber dados do cliente
+                        // Buffer para receber
                         BufferedReader in = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
-                        // Escritor para enviar dados ao cliente
+                        // Buffer para enviar
                         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(cliente.getOutputStream()));
 
                         String linha;
                         // Loop para processar comandos enquanto o cliente envia mensagens
                         while ((linha = in.readLine()) != null) {
-                            // Converte a linha recebida para um objeto JSON
                             JSONObject req = new JSONObject(linha);
                             String cmd = req.getString("cmd"); // Extrai o comando
-
-                            // ===========================
-                            // Comando LIST_REQ
                             // Cliente pede a lista de arquivos disponíveis no servidor
-                            // ===========================
                             if (cmd.equals("list_req")) {
                                 File pasta = new File(DIRETORIO_ARQUIVOS);
                                 String[] arquivos = pasta.list(); // Lista os nomes dos arquivos
@@ -68,11 +58,8 @@ public class ServidorArquivos {
                                 resp.put("files", lista);
                                 out.write(resp.toString() + "\n");
                                 out.flush();
-
-                            // ===========================
-                            // Comando PUT_REQ
+                                
                             // Cliente envia um arquivo para o servidor
-                            // ===========================
                             } else if (cmd.equals("put_req")) {
                                 String nome = req.getString("file");
                                 String base64 = req.getString("value");
@@ -89,10 +76,7 @@ public class ServidorArquivos {
                                 out.write(resp.toString() + "\n");
                                 out.flush();
 
-                            // ===========================
-                            // Comando GET_REQ
                             // Cliente solicita o download de um arquivo
-                            // ===========================
                             } else if (cmd.equals("get_req")) {
                                 String nome = req.getString("file");
                                 Path caminho = Paths.get(DIRETORIO_ARQUIVOS, nome);

@@ -1,17 +1,16 @@
 package trabalhoredes3;
-
+// API de rede(MulticastSocket, InetAddress, DatagramPacket)
 import java.net.*;
+//IOException
 import java.io.*;
+// Para usar UTF-8
 import java.nio.charset.StandardCharsets;
+// Caixas de dialogo graficas
 import javax.swing.*;
+// Manipulacao JSON
 import org.json.JSONObject;
 import org.json.JSONArray;
 
-/**
- * Cliente UDP com interface gráfica simples usando JOptionPane.
- * Envia comandos ao servidor e exibe 
- * os resultados formatados.
- */
 public class ClienteUDP {
     public static void main(String[] args) {
         try {
