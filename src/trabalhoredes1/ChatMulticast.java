@@ -40,8 +40,7 @@ public class ChatMulticast {
                 return;
             }
 
-            String username = template.optString("username", "Anônimo");
-
+            String username = template.optString("username");
             String nomeUsuario = JOptionPane.showInputDialog(null, "Digite seu nome:", username);
 
             if (nomeUsuario == null || nomeUsuario.trim().isEmpty()) {
@@ -103,7 +102,7 @@ public class ChatMulticast {
 
             Scanner scanner = new Scanner(System.in);
             
-            System.out.println("    COMANDOS \nsair -> Encerrar programa \nhelp -> Lista comandos \n");
+            System.out.println("COMANDOS \nsair -> Encerrar programa \nhelp -> Lista comandos \n");
 
             // Loop principal enviar mensagens
             while (true) {
@@ -137,12 +136,6 @@ public class ChatMulticast {
 
                 // Cria objeto JSON
                 JSONObject json = new JSONObject();
-                if (!(message.equalsIgnoreCase("help") || message.equalsIgnoreCase("ajuda"))) {
-                    json.put("date", date);
-                    json.put("time", time);
-                    json.put("username", nomeUsuario);
-                    json.put("message", message);
-                }
                 
 
                 // Converte JSON em bytes
@@ -160,7 +153,7 @@ public class ChatMulticast {
 
     public static JSONObject carregarJson(String caminho) {
         try {
-            // Lê todos os bytes do arquivo como uma string
+            //Bytes -> string
             String conteudo = new String(Files.readAllBytes(Paths.get(caminho)));
 
             // Retorna JSON

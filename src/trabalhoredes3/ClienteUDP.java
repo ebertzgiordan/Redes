@@ -14,11 +14,11 @@ import org.json.JSONArray;
 public class ClienteUDP {
 
     private static boolean executandoPeriodico = false;
-    private static int periodo = 5; // valor padrão
+    private static int periodo=5;
 
     public static void main(String[] args) {
         try {
-            String ipServidor = JOptionPane.showInputDialog("Informe o IP do servidor (ex: localhost//IP maquina):");
+            String ipServidor = JOptionPane.showInputDialog("Informe o IP (ex: localhost//IP maquina):");
             if (ipServidor == null || ipServidor.isBlank()) return;
 
             int porta = 9876;
