@@ -126,13 +126,11 @@ public class ClienteArquivos {
                             JOptionPane.showMessageDialog(null, "Arquivo não encontrado no servidor.");
                         } else {
                             byte[] dadosArq = Base64.getDecoder().decode(conteudo);
-                            
-                            Files.createDirectories(Paths.get(caminhoSalvar));
                             Path caminhoFinal = Paths.get(caminhoSalvar, nomeRemoto);
                             Files.write(caminhoFinal, dadosArq);
 
                             // Confirma onde foi salvo
-                            JOptionPane.showMessageDialog(null, "Arquivo salvo em: " + caminhoFinal.toString());
+                            JOptionPane.showMessageDialog(null, "Arquivo salvo em: " + caminhoSalvar.toString());
                         }
                         break;
                 }
